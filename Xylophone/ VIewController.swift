@@ -14,44 +14,33 @@ class ViewController: UIViewController{
     
     
     var audioPlayer = AVAudioPlayer()
-    var player: AVAudioPlayer?
-    let soundArray = ["note1", "note2", "note3", "note4"]
+    let soundArray = ["note1", "note2", "note3", "note4", "note5", "note6", "note7"]
+    var selectedSoundFileName : String = ""
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
 
-
-
     @IBAction func notePressed(_ sender: UIButton) {
         
-//        if let soundURL = Bundle.main.url(forResource: "note1", withExtension: "wav")
-//        var mySound: SystemSoundID
-
-
-        let url = Bundle.main.url(forResource: "note1", withExtension: "wav")!
-
+        selectedSoundFileName = soundArray[sender.tag - 1]
+        print(selectedSoundFileName)
+        playSound()
+    
+    }
+    
+    func playSound(){
+        let soundUrl = Bundle.main.url(forResource: selectedSoundFileName, withExtension: "wav")
+        
         // Do something and if action triggers error, print in console
         do {
-            player = try AVAudioPlayer(contentsOf: url)
-            guard let player = player else { return }
-
-            player.prepareToPlay()
-            player.play()
-        } catch let error as Error {
+            audioPlayer = try AVAudioPlayer(contentsOf: soundUrl!)
+        } catch {
             print(error)
         }
         
-
-//        if let soundURL = Bundle.main.url(forResource: "note1", withExtension: "wav"){
-//            var mySound: SystemSoundID = 0
-//            AudioServicesCreateSystemSoundID(soundURL as CFURL, &mySound)
-//            // Play
-//
-//            AudioServicesPlaySystemSound(mySound)
-//        }
-
-        
+        audioPlayer.play()
     }
     
   
